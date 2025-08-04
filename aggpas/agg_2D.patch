@@ -1,0 +1,35 @@
+--- /home/roland/Documents/pascal/sources/fpgui/src/corelib/render/software/agg_2D.pas	2025-06-10 00:58:09.905349457 +0200
++++ software/agg_2D.pas	2025-08-04 11:16:28.087609937 +0200
+@@ -347,7 +347,7 @@
+    m_ifBlackman144 : image_filter_blackman144;
+ 
+   public
+-   constructor Construct;
++   constructor Construct(pixfmt:define_pixfmt);
+    destructor  Destruct;
+ 
+   // Setup
+@@ -790,14 +790,19 @@
+ end;
+ 
+ { CONSTRUCT }
+-constructor Agg2D.Construct;
++constructor Agg2D.Construct(pixfmt:define_pixfmt);
+ begin
+  m_rbuf.Construct;
+-
+- pixfmt_rgba32           (m_pixFormat ,@m_rbuf );
++ 
++{pixfmt_rgba32           (m_pixFormat ,@m_rbuf );
+  pixfmt_custom_blend_rgba(m_pixFormatComp ,@m_rbuf ,@comp_op_adaptor_rgba ,rgba_order );
+  pixfmt_rgba32           (m_pixFormatPre ,@m_rbuf );
+- pixfmt_custom_blend_rgba(m_pixFormatCompPre ,@m_rbuf ,@comp_op_adaptor_rgba ,rgba_order );
++ pixfmt_custom_blend_rgba(m_pixFormatCompPre ,@m_rbuf ,@comp_op_adaptor_rgba ,rgba_order );}
++ 
++ pixfmt(m_pixFormat ,@m_rbuf);
++ pixfmt_custom_blend_rgba(m_pixFormatComp ,@m_rbuf ,@comp_op_adaptor_rgba ,rgba_order );
++ pixfmt(m_pixFormatPre ,@m_rbuf);
++ pixfmt_custom_blend_rgba(m_pixFormatCompPre ,@m_rbuf ,@comp_op_adaptor_rgba ,rgba_order);
+ 
+  m_renBase.Construct       (@m_pixFormat );
+  m_renBaseComp.Construct   (@m_pixFormatComp );
