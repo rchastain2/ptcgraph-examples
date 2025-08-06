@@ -1,0 +1,18 @@
+
+function Color16(const r, g, b: byte): word;
+var
+  r1, g1, b1: byte;
+begin
+  r1 := Round((r / 255) * 31);
+  g1 := Round((g / 255) * 63);
+  b1 := Round((b / 255) * 31);
+  result := (r1 shl 11) or (g1 shl 5) or b1; 
+end;
+
+var
+  blue: word;
+
+begin
+  blue := Color16(0, 0, 255);
+  WriteLn(blue);
+end.

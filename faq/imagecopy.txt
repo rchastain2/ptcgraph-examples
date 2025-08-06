@@ -1,0 +1,65 @@
+{----------------------------------------------------------------------}
+procedure ImageCopy (X1, Y1, X2, Y2, X, Y: Integer; Zapis: Word);
+{----------------------------------------------------------------------}
+{ Kopíruje výřez, specifikovaný souřadnicemi X1, Y1 a X2, Y2 jeho      }
+{ protilehlých rohů. Polohu kopie na obrazovce určují souřadnice X, Y  }
+{ jejího levého horního rohu. Parametr Zapis je režim zápisu.          }
+
+ var Mapa : Pointer;                  { ukazatel na bitovou mapu       }
+     Vel  : Word;                     { velikost mapy                  }
+
+begin { ImageCopy }
+ Vel := ImageSize(X1, Y1, X2, Y2);    { výpočet velikosti mapy zdroje  }
+ GetMem(Mapa, Vel);                   { založení dynamické proměnné    }
+                                      { pro přenos mapy                }
+ GetImage(X1, Y1, X2, Y2, Mapa^);     { vytvoření bitové mapy zdroje   }
+ PutImage(X, Y, Mapa^, Zapis);        { zápis mapy na požadované místo }
+                                      { požadovaným způsobem           }
+ FreeMem(Mapa, Vel)                   { uvolnění dynamické proměnné    }
+end; { ImageCopy }
+
+{----------------------------------------------------------------------}
+procedure ImageSave (X1, Y1, X2, Y2: Integer; Soubor: string);
+{----------------------------------------------------------------------}
+{ Založí diskový soubor a uloží do něj bitovou mapu výřezu. Parametry  }
+{ X1, Y1 a X2, Y2 jsou souřadnice protilehlých rohů výřezu, Soubor je  }
+{ systémová specifikace souboru.                                       }
+
+ var Mapa : Pointer;                  { ukazatel na bitovou mapu       }
+     Vel  : Word;                     { velikost mapy                  }
+     F    : file;                     { cílový soubor mapy             }
+
+begin { ImageSave }
+ Vel := ImageSize(X1, Y1, X2, Y2);    { výpočet velikosti mapy zdroje  }
+ GetMem(Mapa, Vel);                   { založení dynamické proměnné    }
+                                      { pro přenos mapy                }
+ GetImage(X1, Y1, X2, Y2, Mapa^);     { vytvoření bitové mapy zdroje   }
+ Assign(F, Soubor);                   { inicializace souboru           }
+ Rewrite(F, Vel);
+ BlockWrite(F, Mapa^, 1);             { zápis mapy do souboru          }
+ Close(F);                            { zavření souboru                }
+ FreeMem(Mapa, Vel)                   { uvolnění dynamické proměnné    }
+end; { ImageSave }
+
+{----------------------------------------------------------------------}
+procedure ImageLoad (X, Y: Integer; Soubor: string; Zapis: Word);
+{----------------------------------------------------------------------}
+{ Přečte a zobrazí bitovou mapu ze souboru Soubor. Parametry X, Y jsou }
+{ souřadnice levého horního rohu obrazu mapy, Zapis je režim zápisu.   }
+
+ var Mapa : Pointer;                  { ukazatel na bitovou mapu       }
+     Vel  : Word;                     { velikost mapy                  }
+     F    : file;                     { zdrojový soubor mapy           }
+
+begin { ImageLoad }
+ Assign(F, Soubor);                   { inicializace souboru           }
+ Reset(F, 1);
+ Vel := ImageSize(X1, Y1, X2, Y2);    { velikosti mapy = velikost soub.}
+ GetMem(Mapa, Vel);                   { založení dynamické proměnné    }
+                                      { pro přenos mapy                }
+ BlockRead(F, Mapa^, Vel);            { načtení mapy ze souboru        }
+ Close(F);                            { zavření souboru                }
+ PutImage(X, Y, Mapa^, Zapis);        { zápis mapy na požadované místo }
+                                      { požadovaným způsobem           }
+ FreeMem(Mapa, Vel)                   { uvolnění dynamické proměnné    }
+end; { ImageLoad }

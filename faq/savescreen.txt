@@ -1,0 +1,41 @@
+
+(* http://computer-programming-forum.com/29-pascal/8df71282e03db4e0.htm *)
+
+You can use GetImage and PutImage procedures for some parts of the screen
+(these procedures cannot get and put more than 64k images):
+
+procedure SaveScreen; { saving the screen to file }
+var f:file;
+    p:pointer;
+    i:byte;
+    BuffSize:word;
+begin
+   BuffSize:=ImageSize(0,0,GetMaxX,GetMaxY div 4);
+   Assign(f,'SOME.SCR'); ReWrite(f,BuffSize);
+   GetMem(p,BuffSize);
+   for i:=0 to 3 do
+     begin
+        GetImage(0,i*(GetMaxY div 4),GetMaxX,succ(i)*(GetMaxY div 4),p^);
+        BlockWrite(f,p^,1);
+     end;
+  FreeMem(p,BuffSize);
+  close(f);
+end;
+
+procedure PutScreen; { restore the screen from file }
+var f:file;
+    p:pointer;
+    i:byte;
+    BuffSize:word;
+begin
+   BuffSize:=ImageSize(0,0,GetMaxX,GetMaxY div 4);
+   Assign(f,'SOME.SCR'); Reset(f,BuffSize);
+   GetMem(p,BuffSize);
+   for i:=0 to 3 do
+     begin
+        BlockRead(f,p^,1);
+        PutImage(0,i*(GetMaxY div 4),p^,NormalPut);
+     end;
+  FreeMem(p,BuffSize);
+  close(f);
+end; 

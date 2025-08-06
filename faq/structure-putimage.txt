@@ -1,0 +1,16 @@
+
+http://free-pascal-general.1045716.n5.nabble.com/Implementing-AggPas-with-PtcGraph-tp5728957p5728982.html
+
+The structure, used by putimage is as follows:
+
+3 longints (12 bytes):
+- image width
+- image height
+- reserved
+
+followed by width*height 16-bit words. If you're a using a 16-bit color
+mode (that's the highest supported - it's a limitation of the graph unit
+include files, which ptcgraph reuses from the fpc sources), the color
+format is rgb565.
+
+Nikolay

@@ -1,0 +1,117 @@
+uses
+  ptc, ptcwrapper;
+
+{$ifdef VER2_6}
+type
+  CodePointer = Pointer;
+{$endif}
+
+{$i graphh.inc}
+
+{Driver number for PTC.}
+const
+  _PTC=22;
+
+//  CGA      = 1;
+//  MCGA     = 2;
+//  EGA      = 3;
+//  EGA64    = 4;
+//  EGAMono  = 5;
+  IBM8514  = 6;
+//  HercMono = 7;
+  ATT400   = 8;
+//  VGA      = 9;
+  PC3270   = 10;
+  LastDriverNum = 10;
+
+//  CGAC0 = 0;
+//  CGAC1 = 1;
+//  CGAC2 = 2;
+//  CGAC3 = 3;
+//  CGAHi = 4;
+
+//  MCGAC0  = 0;
+//  MCGAC1  = 1;
+//  MCGAC2  = 2;
+//  MCGAC3  = 3;
+//  MCGAMed = 4;
+//  MCGAHi  = 5;
+
+//  EGALo = 0;
+//  EGAHi = 1;
+
+//  EGA64Lo = 0;
+//  EGA64Hi = 1;
+
+//  EGAMonoHi = 3;
+
+  IBM8514Lo = 0;
+  IBM8514Hi = 1;
+
+//  HercMonoHi = 0;
+
+  ATT400C0  = 0;
+  ATT400C1  = 1;
+  ATT400C2  = 2;
+  ATT400C3  = 3;
+  ATT400Med = 4;
+  ATT400Hi  = 5;
+
+//  VGALo  = 0;
+//  VGAMed = 1;
+//  VGAHi  = 2;
+
+
+
+  m640x200x16       = VGALo;
+  m640x400x16       = VGAMed;
+  m640x480x16       = VGAHi;
+
+  { VESA Specific video modes. }
+  m320x200x32k      = $10D;
+  m320x200x64k      = $10E;
+{$ifdef FPC_GRAPH_SUPPORTS_TRUECOLOR}
+  m320x200x16m      = $10F;
+{$endif FPC_GRAPH_SUPPORTS_TRUECOLOR}
+
+  m640x400x256      = $100;
+
+  m640x480x256      = $101;
+  m640x480x32k      = $110;
+  m640x480x64k      = $111;
+{$ifdef FPC_GRAPH_SUPPORTS_TRUECOLOR}
+  m640x480x16m      = $112;
+{$endif FPC_GRAPH_SUPPORTS_TRUECOLOR}
+
+  m800x600x16       = $102;
+  m800x600x256      = $103;
+  m800x600x32k      = $113;
+  m800x600x64k      = $114;
+{$ifdef FPC_GRAPH_SUPPORTS_TRUECOLOR}
+  m800x600x16m      = $115;
+{$endif FPC_GRAPH_SUPPORTS_TRUECOLOR}
+
+  m1024x768x16      = $104;
+  m1024x768x256     = $105;
+  m1024x768x32k     = $116;
+  m1024x768x64k     = $117;
+{$ifdef FPC_GRAPH_SUPPORTS_TRUECOLOR}
+  m1024x768x16m     = $118;
+{$endif FPC_GRAPH_SUPPORTS_TRUECOLOR}
+
+  m1280x1024x16     = $106;
+  m1280x1024x256    = $107;
+  m1280x1024x32k    = $119;
+  m1280x1024x64k    = $11A;
+{$ifdef FPC_GRAPH_SUPPORTS_TRUECOLOR}
+  m1280x1024x16m    = $11B;
+{$endif FPC_GRAPH_SUPPORTS_TRUECOLOR}
+
+const
+  FullscreenGraph: Boolean = False;
+
+var
+  WindowTitle: AnsiString;
+  PTCWrapperObject: TPTCWrapperThread;
+
+function InstallUserMode(Width, Height: SmallInt; Colors: LongInt; HardwarePages: SmallInt = 1; XAspect: Word = 10000; YAspect: Word = 10000): smallint;

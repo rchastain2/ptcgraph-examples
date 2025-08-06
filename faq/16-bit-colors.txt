@@ -1,0 +1,53 @@
+
+https://stackoverflow.com/questions/13720937/c-defined-16bit-high-color
+
+From these one can easily find out the formula:
+
+#define Red             0xF800      /* 255,   0,   0 */  
+#define Magenta         0xF81F      /* 255,   0, 255 */
+#define Yellow          0xFFE0      /* 255, 255,   0 */
+
+F800 has 5 MSB bits set and FFE0 has 5 LSB not set. 0xF81F has obviously both 5 LSB's and 5 MSB's set, which proves the format to be RGB565.
+
+The formula to convert a value 173 to Red is not as straightforward as it may look -- you can't simply drop the 3 least significant bits, but have to linearly interpolate to make 255 to correspond to 31 (or green 255 to correspond to 63).
+
+NewValue = (31 * old_value) / 255;
+
+(And this is still just a truncating division -- proper rounding could be needed)
+
+With proper rounding and scaling:
+
+Uint16_value = (((31*(red+4))/255)<<11) | 
+               (((63*(green+2))/255)<<5) | 
+               ((31*(blue+4))/255);
+
+
+
+You need to know the exact format of the display, just "16-bit" is not enough.
+
+There's RGB555, in which each of the three components get 5 bits. This drops the total color space to just 32,768 colors, wasting one bit but it's very simple to manage since the there's the same number of shades for each component.
+
+There's also RGB565, in which the green component is given 6 bits (since the human eye is more sensitive to green). This might be the format you're having, since the "dark green" example is 0x03e0 which in binary is 0b0000 0011 1110 0000. Since there's 6 bits set to 1 there, I guess that's the total allocation for the green component and showing it's maximum value.
+
+It's like this, then (with spaces separating every four bits and re-using the imaginary 0b prefix):
+
+0bRRRR RGGG GGGB BBBB
+
+Of course, the bit ordering can differ too, in the word.
+
+The task of converting a triplet of numbers into a bit-packed word is quite easily done in typically programming languages that have bit manipulation operators.
+
+In C, it's often done in a macro, but we can just as well have a function:
+
+#include <stdint.h>
+
+uint16_t rgb565_from_triplet(uint8_t red, uint8_t green, uint8_t blue)
+{
+  red   >>= 3;
+  green >>= 2;
+  blue  >>= 3;
+  return (red << 11) | (green << 5) | blue;
+}
+
+note that the above assumes full 8-bit precision for the components, so maximum intensity for a component is 255, not 128 as in your example. If the color space really is using 7-bit components then some additional scaling would be necessary.
+

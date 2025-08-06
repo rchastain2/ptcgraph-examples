@@ -1,0 +1,3 @@
+  ptcGraph.FullScreenGraph := FullScreen;
+  gd := ptcGraph.Detect; 
+  ptcGraph.InitGraph(gd, gm, '');
