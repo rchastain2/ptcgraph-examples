@@ -1,0 +1,7 @@
+
+*.cfg
+*.o
+*.log
+*.ppu
+
+resources/
