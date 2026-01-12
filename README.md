@@ -1,7 +1,7 @@
 
 # ptcGraph examples
 
-Examples for the *ptcGraph* unit, made by me or others.
+Examples for the *ptcGraph* unit, made by me or by others.
 
 ![Screenshot](3d/grgula.png)
 
