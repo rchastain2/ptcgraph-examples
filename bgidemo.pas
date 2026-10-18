@@ -53,6 +53,7 @@ var
   ErrorCode   : integer;  { Reports any graphics errors }
   MaxColor    : word;     { The maximum color value available }
   OldExitProc : Pointer;  { Saves exit procedure address }
+  Quit        : boolean;
 
 procedure MyExitProc;
 begin
@@ -183,7 +184,7 @@ begin
   Ch := ReadKey;
   if ch = #0 then ch := readkey;      { trap function keys }
   if Ch = Esc then
-    Halt(0)                           { terminate program }
+    Quit := True                      { terminate program }
   else
     ClearDevice;                      { clear screen, go on with demo }
 end; { WaitToGo }
@@ -491,6 +492,8 @@ begin
         end;
     end; { with }
     WaitToGo;
+    if Quit then
+      Exit;
   end; { for loop }
 end; { TextDump }
 
@@ -1344,31 +1347,32 @@ begin
 end; { SayGoodbye }
 
 begin { program body }
+  Quit := False;
   Initialize;
   ReportStatus;
-  AspectRatioPlay;
-  FillEllipsePlay;
-  SectorPlay;
-  WriteModePlay;
-  ColorPlay;
-  PalettePlay;
-  PutPixelPlay;
-  PutImagePlay;
-  RandBarPlay;
-  BarPlay;
-  Bar3DPlay;
-  ArcPlay;
-  CirclePlay;
-  PiePlay;
-  LineToPlay;
-  LineRelPlay;
-  LineStylePlay;
-  UserLineStylePlay;
-  TextDump;
-  TextPlay;
-  FillStylePlay;
-  FillPatternPlay;
-  PolyPlay;
-  SayGoodbye;
+  if not Quit then AspectRatioPlay;
+  if not Quit then FillEllipsePlay;
+  if not Quit then SectorPlay;
+  if not Quit then WriteModePlay;
+  if not Quit then ColorPlay;
+  if not Quit then PalettePlay;
+  if not Quit then PutPixelPlay;
+  if not Quit then PutImagePlay;
+  if not Quit then RandBarPlay;
+  if not Quit then BarPlay;
+  if not Quit then Bar3DPlay;
+  if not Quit then ArcPlay;
+  if not Quit then CirclePlay;
+  if not Quit then PiePlay;
+  if not Quit then LineToPlay;
+  if not Quit then LineRelPlay;
+  if not Quit then LineStylePlay;
+  if not Quit then UserLineStylePlay;
+  if not Quit then TextDump;
+  if not Quit then TextPlay;
+  if not Quit then FillStylePlay;
+  if not Quit then FillPatternPlay;
+  if not Quit then PolyPlay;
+  if not Quit then SayGoodbye;
   CloseGraph;
 end.
