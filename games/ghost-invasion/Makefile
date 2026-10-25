@@ -1,25 +1,23 @@
-.PHONY: pacman editor release strip clean
-pacman:
+.PHONY: pacman editor release strip run clean units
+pacman: units
+	@fpc mspacman.pas @extrafpc.cfg -dDEBUG
+#	@sh -c 'stat --printf="Executable file size: %s bytes\n" mspacman'
+editor: units
+	@fpc editor.pas @extrafpc.cfg -dDEBUG
+#	@sh -c 'stat --printf="Executable file size: %s bytes\n" editor'
+release: units
+	@fpc mspacman.pas @extrafpc.cfg -dRELEASE
+#	@sh -c 'stat --printf="Executable file size: %s bytes\n" mspacman'
+strip: units
+	@fpc mspacman.pas @extrafpc.cfg -dRELEASE
+	@upx -qq mspacman
+#	@sh -c 'stat --printf="Executable file size: %s bytes\n" mspacman'
+units:
 ifeq ($(OS),Windows_NT)
 	@if not exist units mkdir units
 else
 	@mkdir -p units
 endif
-	@fpc mspacman.pas @extrafpc.cfg -dDEBUG
-#	@sh -c 'stat --printf="Executable file size: %s bytes\n" mspacman'
-editor:
-#	@mkdir -p units
-	@fpc editor.pas @extrafpc.cfg -dDEBUG
-#	@sh -c 'stat --printf="Executable file size: %s bytes\n" editor'
-release:
-#	@mkdir -p units
-	@fpc mspacman.pas @extrafpc.cfg -dRELEASE
-#	@sh -c 'stat --printf="Executable file size: %s bytes\n" mspacman'
-strip:
-#	@mkdir -p units
-	@fpc mspacman.pas @extrafpc.cfg -dRELEASE
-	@upx -qq mspacman
-#	@sh -c 'stat --printf="Executable file size: %s bytes\n" mspacman'
 run:
 ifeq ($(OS),Windows_NT)
 	@mspacman 2> run.err | tee run.out

@@ -136,11 +136,20 @@ var
   LastMove: byte;
   CurLevel: PLevel;
   GBonusC: byte;
+  Closing: boolean;
 
 procedure ClearKeyboard;
+var
+  c: char;
 begin
   while KeyPressed do
-    ReadKey;
+  begin
+    c := ReadKey;
+    if c = #0 then
+      ReadKey
+    else if c = #3 then
+      Closing := TRUE;
+  end;
 end;
 
 (*
@@ -1204,14 +1213,14 @@ begin
       begin
         ch := ReadKey;
         if ch = #0 then
-          ch := ReadKey;
-        case ch of
-          #75: LastMove := Left;
-          #77: LastMove := Right;
-          #72: LastMove := Up;
-          #80: LastMove := Down;
-          #251..#254: Cheat(ch);
-        end;
+          case ReadKey of
+            #75: LastMove := Left;
+            #77: LastMove := Right;
+            #72: LastMove := Up;
+            #80: LastMove := Down;
+          end
+        else if ch in [#251..#254] then
+          Cheat(ch);
       end;
       if LastMove <> 0 then
         if MsPac.SetDir(LastMove) then
@@ -1252,7 +1261,7 @@ begin
 
       if ch = #255 then
         CurLevel^.Dots := 0;
-    until (ch in [#3, #27]) or (CurLevel^.Dots = 0);
+    until (ch in [#3, #27]) or Closing or (CurLevel^.Dots = 0);
 
     MsPac.cwf := 0;
     MsPac.Draw;
@@ -1281,13 +1290,13 @@ begin
       //ClearDevice;
       //Delay(500);
     end;
-    if not (ch in [#3, #27]) then
+    if not ((ch in [#3, #27]) or Closing) then
       case l of
         2: Act(1);
         5: Act(2);
         9: Act(3)
       end;
     ClearKeyboard;
-  until (ch in [#3, #27]) or (l = 6);
+  until (ch in [#3, #27]) or Closing or (l = 6);
   CloseGraph;
 end.
