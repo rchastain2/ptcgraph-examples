@@ -11,6 +11,5 @@ Examples for the *ptcGraph* unit, made by me or by others.
 - [Cairo examples](https://github.com/rchastain2/cairo-examples/tree/main/pascal/ptcgraph)
 - [Fiveline](https://github.com/RetroNick2020/fiveline)
 - [Ghost Invasion (Pac-Man clone)](games/ghost-invasion)
-- [Nero 5](https://gitlab.com/rchastain/nero5)
 - [Russian Checkers](https://github.com/rchastain/pascal-russian-checkers)
 - [Snake for ptcGraph](https://codeberg.org/rchastain/snake-ptcgraph)
