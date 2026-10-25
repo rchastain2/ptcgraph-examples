@@ -4,30 +4,30 @@ unit Log;
 interface
 
 uses
-  SysUtils, Classes;
+  SysUtils;
 
-procedure LogLn(const ALine: string; const ARewrite: boolean = FALSE);
-  
+procedure LogLn(const ALine: string);
+
 implementation
 
-var
-  LLogName: TFileName;
-  
-procedure LogLn(const ALine: string; const ARewrite: boolean);
+{$IFDEF DEBUG}
 var
   LLog: TextFile;
-  LTime: string;
+{$ENDIF}
+
+procedure LogLn(const ALine: string);
 begin
-  Assign(LLog, LLogName);
-  if ARewrite or not FileExists(LLogName) then
-    Rewrite(LLog)
-  else
-    Append(LLog);
-  LTime := TimeToStr(Time);
-  WriteLn(LLog, LTime, ' ', ALine);
-  Close(LLog);
+{$IFDEF DEBUG}
+  WriteLn(LLog, TimeToStr(Time), ' ', ALine);
+  Flush(LLog);
+{$ENDIF}
 end;
-  
-begin
-  LLogName := ChangeFileExt(ParamStr(0), '.log');
+
+{$IFDEF DEBUG}
+initialization
+  Assign(LLog, ChangeFileExt(ParamStr(0), '.log'));
+  Rewrite(LLog);
+finalization
+  Close(LLog);
+{$ENDIF}
 end.

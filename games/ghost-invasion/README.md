@@ -15,7 +15,19 @@ Use `make release` for an optimized build and `make editor` for the level editor
 
 Run `./mspacman` from the project directory. Use the arrow keys to move, and press Escape to quit.
 
+Cheat keys:
+
+| Key | Action |
+|---|---|
+| F5 | Score up by 1000 points |
+| F6 | Extra life |
+| F7 | Eat a power pill |
+| F8 | Toggle invisible mode |
+| F9 | Skip level |
+
 ## Level editor
+
+Run `./editor <file>` from the project directory, for example `./editor mazes/pclv1`. If the file does not exist, a new level is started and will be saved under that name (`level` by default).
 
 | Key | Action |
 |---|---|
@@ -23,7 +35,8 @@ Run `./mspacman` from the project directory. Use the arrow keys to move, and pre
 | `+` / `-` | Select the next/previous tile |
 | Space | Put the selected tile |
 | Enter | Erase the tile |
-| F2 / F3 | Save/load a level |
+| F2 | Save the level |
+| F3 | Reload the level from the file |
 | Ctrl+D | Count the dots |
 | Ctrl+L | Clear the level |
 | Ctrl+N / Ctrl+Y | Insert/delete a line |

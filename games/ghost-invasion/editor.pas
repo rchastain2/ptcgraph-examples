@@ -32,6 +32,7 @@ var
   ci: byte; { Current image }
   bi: byte; { Blank image }
   cx, cy: byte;
+  FileName: string;
 
 procedure InitGraphics;
 var
@@ -101,51 +102,70 @@ begin
   FocusCell(cx, cy);
 end;
 
-procedure SaveAs;
-var
-  f: file;
-  fn: string;
+procedure ShowStatus(const s: string);
 begin
-  RestoreCrtMode;
-  Write('Enter file name to save: ');
-  ReadLn(fn);
-  Assign(f, fn);
-  Rewrite(f, 1);
-  BlockWrite(f, Matrix, SizeOf(Matrix));
-  Close(f);
-  SetGraphMode(GetGraphMode);
-  DrawLevel;
+  SetFillStyle(SolidFill, Black);
+  Bar(0, 400, GetMaxX, 415);
+  SetColor(White);
+  OutTextXY(0, 404, s);
 end;
 
-procedure Load;
+procedure SaveLevel;
 var
   f: file;
-  fn: string;
 begin
-  RestoreCrtMode;
-  Write('Enter file name to load: ');
-  ReadLn(fn);
-  Assign(f, fn);
+  Assign(f, FileName);
+  {$I-}
+  Rewrite(f, 1);
+  {$I+}
+  if IOResult <> 0 then
+  begin
+    ShowStatus('Cannot save ' + FileName);
+    Exit;
+  end;
+  BlockWrite(f, Matrix, SizeOf(Matrix));
+  Close(f);
+  ShowStatus('Saved ' + FileName);
+end;
+
+function LoadLevel: boolean;
+var
+  f: file;
+begin
+  LoadLevel := FALSE;
+  Assign(f, FileName);
+  {$I-}
   Reset(f, 1);
+  {$I+}
+  if IOResult <> 0 then
+  begin
+    ShowStatus('Cannot load ' + FileName);
+    Exit;
+  end;
+  if FileSize(f) <> SizeOf(Matrix) then
+  begin
+    Close(f);
+    ShowStatus('Invalid level file ' + FileName);
+    Exit;
+  end;
   BlockRead(f, Matrix, SizeOf(Matrix));
   Close(f);
-  SetGraphMode(GetGraphMode);
   DrawLevel;
+  ShowStatus('Loaded ' + FileName);
+  LoadLevel := TRUE;
 end;
 
 procedure CountDots;
 var
   c, i, j: Integer;
+  s: string;
 begin
-  RestoreCrtMode;
   c := 0;
   for i := 0 to MaxY do
     for j := 0 to MaxX do
       Inc(c, byte(Matrix[j, i] in [17..18]));
-  WriteLn('Total number of dots: ', c);
-  ReadKey;
-  SetGraphMode(GetGraphMode);
-  DrawLevel;
+  Str(c, s);
+  ShowStatus('Total number of dots: ' + s);
 end;
 
 procedure ClearLevel;
@@ -153,6 +173,7 @@ begin
   FillChar(Matrix, SizeOf(Matrix), 0);
   ClearDevice;
   FocusCell(cx, cy);
+  ShowStatus(FileName);
 end;
 
 procedure InsertColumn;
@@ -207,10 +228,15 @@ begin
   cy := 0;
   ci := 1;
   bi := 0;
+  if ParamCount > 0 then
+    FileName := ParamStr(1)
+  else
+    FileName := 'level';
   FocusCell(cx, cy);
+  if not LoadLevel then
+    ShowStatus('New level ' + FileName);
   repeat
     ch := readkey;
-    //if Caps_Lock then Matrix[cx, cy]:=ci;
     case ch of
       #32: Matrix[cx, cy] := ci;
       #13: Matrix[cx, cy] := bi;
@@ -232,8 +258,8 @@ begin
             #77: if cx < MaxX then Inc(cx);
             #80: if cy < MaxY then Inc(cy);
             #72: if cy > 0 then Dec(cy);
-            #60: SaveAs;
-            #61: Load;
+            #60: SaveLevel;
+            #61: LoadLevel;
           end;
           if cf in [#72..#80] then
             FocusCell(cx, cy);

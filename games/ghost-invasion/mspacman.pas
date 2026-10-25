@@ -18,7 +18,6 @@ uses
   Load,
   Log;
 
-{.$S-}
 const
   Left   = 1;
   Right  = 2;
@@ -31,7 +30,6 @@ const
   Normal = 0;
   Blind  = 1;
   Dead   = 2;
-  Halted = 3;
   mzMaxX = 20;
   mzMaxY = 22;
   Chase: array[1..4, 1..2] of shortint = ((0, 0), (0, 0), (0, 0), (0, 0));
@@ -73,7 +71,6 @@ type
     function Cell(AX, AY: integer; AOutside: byte = 0): byte;
   end;
 
-  PGhost = ^TGhost;
   TGhost = object
     Frames: PFrames;
     BlindFrames: PBlindFrames;
@@ -137,6 +134,7 @@ var
   CurLevel: PLevel;
   GBonusC: byte;
   Closing: boolean;
+  SkipLevel: boolean;
 
 procedure ClearKeyboard;
 var
@@ -151,15 +149,6 @@ begin
       Closing := TRUE;
   end;
 end;
-
-(*
-function Compare(a, b: integer): shortint;
-begin
-  if a > b then result :=  1 else
-  if a < b then result := -1 else
-    result := 0;
-end;
-*)
 
 procedure LoadImages;
 const
@@ -296,7 +285,6 @@ procedure ShowScore;
 var
   s: string;
 begin
-  //LogLn('ShowScore');
   Str(MsPac.Score:7, s);
   Bar(CurLevel^.X, CurLevel^.Y - 16, CurLevel^.X + TextWidth(s), CurLevel^.Y);
   OutTextXY(CurLevel^.X, CurLevel^.Y - 16, s);
@@ -357,7 +345,6 @@ end;
 
 procedure TLevel.DrawAt(Xp, Yp: byte);
 begin
-  //LogLn(Format('TLevel.DrawAt(%d,%d)', [Xp, Yp]));
   PutImage(X + Xp shl 4, Y + Yp shl 4, LevelImages[Data[Xp, Yp]]^, DrawMode);
 end;
 
@@ -418,7 +405,6 @@ procedure TGhost.Draw;
 var
   ax, ay: byte;
 begin
-  //LogLn('TGhost.Draw');
   ax := Level^.XPos(X);
   ay := Level^.YPos(Y);
   case State of
@@ -460,7 +446,6 @@ end;
 
 procedure TGhost.Move;
 begin
-  //LogLn('TGhost.Move');
   if (wd = Right) and (Level^.XPos(X) = 18) then
   begin
     PutImage(X, Y, LevelImages[0]^, CopyPut);
@@ -485,7 +470,6 @@ begin
     cwf := 0;
   if State = Blind then
   begin
-    //Dec(cb);
     if cb > 0 then
       Dec(cb)
     else
@@ -588,7 +572,6 @@ end;
 
 procedure TPacMan.Draw;
 begin
-  //LogLn(Format('TPacMan.Draw wd = %d', [wd]));
   PutImage(X, Y, Frames^[wd][byte(cwf mod 6 >= 3)]^, DrawMode)
 end;
 
@@ -623,27 +606,16 @@ begin
   end;
   if Stopped then
     Exit;
-  OX := X;
-  OY := Y;
   case wd of
     Left: Dec(X);
     Right: Inc(X);
     Up: Dec(Y);
     Down: Inc(Y);
   end;
-  //Inc(cwf); LogLn(Format({$I %LINE%} + ' cwf = %d', [cwf]));
   if cwf < High(byte) then
     Inc(cwf)
   else
     cwf := 0;
-  (*
-  if Stopped then
-  begin
-    X := OX;
-    Y := OY;
-    Dec(cwf);
-  end;
-  *)
   OX := Level^.XPos(X);
   OY := Level^.YPos(Y);
   case wd of
@@ -882,21 +854,23 @@ end;
 procedure Cheat(ch: char);
 begin
   case ch of
-    #252:
+    #63:
+      ScoreUp(1000);
+    #64:
       begin
         Inc(MsPac.Lives);
         ShowLives;
       end;
-    #251:
-      ScoreUp(1000);
-    #253:
+    #65:
       begin
         for i := 1 to 4 do
           Ghosts[i].MakeBlind;
         GBonusC := 0;
       end;
-    #254:
+    #66:
       MsPac.Invisible := not MsPac.Invisible;
+    #67:
+      SkipLevel := TRUE;
   end;
 end;
 
@@ -1158,7 +1132,7 @@ var
 
 begin
   Randomize;
-  LogLn(Concat('MS PACMAN ', {$I %DATE%}, ' ', {$I %TIME%}, ' FPC ', {$I %FPCVERSION%}, ' ', {$I %FPCTARGETOS%}, ' ', {$I %FPCTARGETCPU%}), TRUE);
+  LogLn(Concat('MS PACMAN ', {$I %DATE%}, ' ', {$I %TIME%}, ' FPC ', {$I %FPCVERSION%}, ' ', {$I %FPCTARGETOS%}, ' ', {$I %FPCTARGETCPU%}));
   WriteLn('MS PACMAN, Beta version - Demonstration');
   WriteLn('Copyright (C) 1997 by George M. Tzoumas');
   WriteLn('Loading...');
@@ -1182,8 +1156,8 @@ begin
     Inc(l);
     CurLevel := @Levels[l];
     Ghosts[Blinky].Init(@GhostFrames[Blinky], Blinky, CurLevel);
-    Ghosts[Pinky].Init(@GhostFrames[Pinky], Inky, CurLevel);
-    Ghosts[Inky].Init(@GhostFrames[Inky], Pinky, CurLevel);
+    Ghosts[Pinky].Init(@GhostFrames[Pinky], Pinky, CurLevel);
+    Ghosts[Inky].Init(@GhostFrames[Inky], Inky, CurLevel);
     Ghosts[Sue].Init(@GhostFrames[Sue], Sue, CurLevel);
     MsPac.Init(@MsPacFrames, CurLevel);
     SetPalette(8, CurLevel^.WallColor);
@@ -1196,7 +1170,6 @@ begin
     ShowScore;
     for i := Blinky to Sue do
       Ghosts[i].Draw;
-    //ch := #0;
     LastMove := 0;
     om := LastMove;
     t := 0;
@@ -1204,7 +1177,6 @@ begin
     ShowMessage('READY', 1000);
     ch := #0;
     repeat
-      //Inc(t);
       if t < High(word) then
         Inc(t)
       else
@@ -1213,14 +1185,17 @@ begin
       begin
         ch := ReadKey;
         if ch = #0 then
-          case ReadKey of
+        begin
+          ch := ReadKey;
+          case ch of
             #75: LastMove := Left;
             #77: LastMove := Right;
             #72: LastMove := Up;
             #80: LastMove := Down;
-          end
-        else if ch in [#251..#254] then
-          Cheat(ch);
+            #63..#67: Cheat(ch);
+          end;
+          ch := #0;
+        end;
       end;
       if LastMove <> 0 then
         if MsPac.SetDir(LastMove) then
@@ -1230,8 +1205,6 @@ begin
             om := LastMove;
             MsPac.Move;
             MsPac.Draw;
-            //MsPac.Move;
-            //MsPac.Draw;
           end;
           LastMove := 0;
         end;
@@ -1259,42 +1232,27 @@ begin
 
       Delay(10);
 
-      if ch = #255 then
+      if SkipLevel then
+      begin
         CurLevel^.Dots := 0;
+        SkipLevel := FALSE;
+      end;
     until (ch in [#3, #27]) or Closing or (CurLevel^.Dots = 0);
 
     MsPac.cwf := 0;
     MsPac.Draw;
     if CurLevel^.Dots = 0 then
     begin
-      //Delay(700);
       for i := Blinky to Sue do
         Ghosts[i].UnDraw;
       MsPac.UnDraw;
-      //Delay(300);
-      //SetPalette(8, 0);
-      //SetPalette(7, 63);
-      //Delay(300);
-      //SetPalette(8, CurLevel^.WallColor);
-      //SetPalette(7, CurLevel^.FrameColor);
-      //Delay(300);
-      //SetPalette(8, 0);
-      //SetPalette(7, 63);
-      //Delay(300);
-      //SetPalette(8, CurLevel^.WallColor);
-      //SetPalette(7, CurLevel^.FrameColor);
-      //Delay(300);
-      //SetPalette(8, 0);
-      //SetPalette(7, 63);
-      //Delay(300);
-      //ClearDevice;
-      //Delay(500);
+      if l = 6 then
+        ShowMessage('YOU WIN', 3000);
     end;
     if not ((ch in [#3, #27]) or Closing) then
       case l of
         2: Act(1);
-        5: Act(2);
-        9: Act(3)
+        5: Act(2)
       end;
     ClearKeyboard;
   until (ch in [#3, #27]) or Closing or (l = 6);
