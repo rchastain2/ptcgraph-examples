@@ -1,0 +1,9 @@
+.bash_history
+mspacman
+editor
+*.exe
+units/
+*.log
+*.err
+*.out
+archives/
