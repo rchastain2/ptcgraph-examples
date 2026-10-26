@@ -1,0 +1,58 @@
+
+unit Sound;
+
+interface
+
+type
+  TSound = (
+    sndWall,
+    sndPaddle,
+    sndFall,
+    sndBrick1,
+    sndBrick2,
+    sndBrick3,
+    sndBrick4,
+    sndBrick5
+  );
+
+procedure Play(const aSound: TSound);
+
+implementation
+
+uses
+  SysUtils, Bass;
+  
+var
+  lSamples: array[TSound] of HSAMPLE;
+
+procedure Play(const aSound: TSound);
+begin
+  BASS_ChannelPlay(BASS_SampleGetChannel(lSamples[aSound], FALSE), FALSE);
+end;
+
+const
+  cFileName: array[TSound] of string = (
+    'sounds/wall_hit.wav',
+    'sounds/paddle_hit.wav',
+    'sounds/sfx_coin_single6.wav',
+    'sounds/brick1.wav',
+    'sounds/brick2.wav',
+    'sounds/brick3.wav',
+    'sounds/brick4.wav',
+    'sounds/brick5.wav'
+  );
+  
+var
+  s: TSound;
+  
+initialization
+  BASS_Init(-1, 44100, 0, nil, nil);
+  
+  for s in TSound do
+    if FileExists(cFileName[s]) then
+      lSamples[s] := BASS_SampleLoad(FALSE, pchar(cFileName[s]), 0, 0, 1, 0);
+      
+finalization
+  BASS_Free;
+  
+end.

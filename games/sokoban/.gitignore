@@ -1,0 +1,6 @@
+sokoban
+units/
+*.log
+progress.txt
+*.o
+*.ppu

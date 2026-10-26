@@ -1,0 +1,13 @@
+lines
+symbols
+star
+sight
+animation
+design
+randomfigures
+space
+triangles
+*.txt
+!url.txt
+*.html
+images/
