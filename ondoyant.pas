@@ -8,7 +8,10 @@ uses
 {$IFDEF unix}
   cThreads,
 {$ENDIF}
-  ptcGraph, ptcCrt, Colors24;
+  ptcGraph, ptcCrt;
+
+const
+  cMidnightBlue = $191970;
   
 const
   indiceMax = 100;

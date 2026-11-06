@@ -6,7 +6,11 @@ uses
   cThreads,
 {$ENDIF}
   SysUtils,
-  ptcGraph, ptcCrt, Colors16;
+  ptcGraph, ptcCrt;
+
+const
+  cBlue   = $001F;
+  cOrange = $FD20;
   
 var
   treiber, modus: smallint;

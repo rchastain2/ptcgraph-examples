@@ -5,7 +5,12 @@ uses
 {$IFDEF unix}
   cThreads,
 {$ENDIF}
-  ptcGraph, ptcCrt, Colors16;
+  ptcGraph, ptcCrt;
+
+const
+  cDarkSlateGray = $2A69;
+  cOrange        = $FD20;
+  cRed           = $F800;
   
 procedure Figura(x1, y1, d, m, u: smallint; c: longword);
 var

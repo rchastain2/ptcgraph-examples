@@ -7,7 +7,12 @@ uses
 {$IFDEF unix}
   cthreads,
 {$ENDIF}
-  ptccrt, ptcgraph, colors16;
+  ptccrt, ptcgraph;
+
+const
+  cDarkOrange  = $FC60;
+  cForestGreen = $2444;
+  cOrange      = $FD20;
 
 procedure init;
 var

@@ -5,7 +5,12 @@ uses
 {$IFDEF UNIX}
   CThreads,
 {$ENDIF}
-  SysUtils, ptcGraph, ptcCrt, ptcGraph1, Colors16;
+  SysUtils, ptcGraph, ptcCrt, ptcGraph1;
+
+const
+  cDarkOrange  = $FC60;
+  cRed         = $F800;
+  cYellowGreen = $9E66;
   
 begin
   if OpenGraph(640, 480, 16, 'SetViewPort demo') then

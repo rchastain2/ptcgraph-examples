@@ -3,7 +3,12 @@ uses
 {$IFDEF unix}
   cThreads,
 {$ENDIF}
-  ptcGraph, ptcCrt, Colors24; {подключение к программе библиотек Crt и Graph}
+  ptcGraph, ptcCrt; {подключение к программе библиотек Crt и Graph}
+
+const
+  cLightGray = $A8A8A8;
+  cRed       = $FF0000;
+
 var
   Key: Char;
   LineStyle: Word; { номер стиля рисования линии }

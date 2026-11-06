@@ -5,7 +5,7 @@ uses
 {$IFDEF unix}
   cThreads,
 {$ENDIF}
-  ptcGraph, ptcCrt{, Colors24};
+  ptcGraph, ptcCrt;
   
 var
   gd, gm: smallint;

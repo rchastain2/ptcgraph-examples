@@ -5,7 +5,12 @@ uses
 {$IFDEF unix}
   cThreads,
 {$ENDIF}
-  ptcGraph, ptcCrt, Colors16;
+  ptcGraph, ptcCrt;
+
+const
+  cBlue   = $001F;
+  cOrange = $FD20;
+  cSnow   = $FFDF;
   
 var
   a, b: array[1..100] of PointType;

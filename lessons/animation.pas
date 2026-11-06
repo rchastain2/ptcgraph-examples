@@ -3,7 +3,16 @@ uses
 {$IFDEF unix}
   cThreads,
 {$ENDIF}
-  ptcGraph, ptcCrt, Colors24; { подключение к программе библиотек Crt и Graph }
+  ptcGraph, ptcCrt; { подключение к программе библиотек Crt и Graph }
+
+const
+  cBlack     = $000000;
+  cGreen     = $008000;
+  cLightCyan = $E0FFFF;
+  cLightGray = $A8A8A8;
+  cLightRed  = $FF8080;
+  cYellow    = $FFFF00;
+
 const { вертикальные и горизонтальные координаты положения рук }
   Vert: array[1..3] of Integer = (190, 157, 120);
   Horizont: array[1..3] of Integer = (200, 190, 200);

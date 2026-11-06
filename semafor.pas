@@ -11,8 +11,14 @@ uses
   cThreads,
 {$ENDIF}
   ptcGraph,
-  ptcCrt,
-  Colors24;
+  ptcCrt;
+
+const
+  cDarkGray   = $545454;
+  cDarkOrange = $FF8C00;
+  cGreen      = $008000;
+  cLightGray  = $A8A8A8;
+  cRed        = $FF0000;
 
 var
   gd, gm: smallint;

@@ -2,7 +2,7 @@
 SOURCE := $(HOME)/Documents/pascal/sources/fpc/packages/graph/src
 
 PFLAGS := -Mobjfpc -Sh
-PFLAGS += -ghl -Fu../..
+PFLAGS += -ghl
 ifdef USE_SOURCE
 PFLAGS += -Fu$(SOURCE)/ptcgraph -Fi$(SOURCE)/inc
 endif

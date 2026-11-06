@@ -5,7 +5,10 @@ uses
 {$IFDEF unix}
   cThreads,
 {$ENDIF}
-  ptcGraph, ptcCrt, Colors16;
+  ptcGraph, ptcCrt;
+
+const
+  cBlack = $0000;
 
 const
   NBLOBS = 20;

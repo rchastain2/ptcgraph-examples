@@ -6,7 +6,6 @@ PFLAGS += -ghl
 ifdef USE_SOURCE
 PFLAGS += -Fu$(SOURCE)/ptcgraph -Fi$(SOURCE)/inc
 endif
-PFLAGS += -Fu..
 
 PROGRAMS := $(wildcard *.pas)
 

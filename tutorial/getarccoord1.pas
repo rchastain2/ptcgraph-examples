@@ -17,7 +17,13 @@ uses
 {$IFDEF unix}
   cThreads,
 {$ENDIF}
-  ptcGraph, ptcCrt, Colors16;
+  ptcGraph, ptcCrt;
+
+const
+  cBlack      = $0000;
+  cDarkOrange = $FC60;
+  cOrange     = $FD20;
+
 var
   pts3    : arccoordstype; { <---- Necessary to declare this type var. }
   rad,

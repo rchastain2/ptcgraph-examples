@@ -5,7 +5,10 @@ uses
 {$IFDEF unix}
   cThreads,
 {$ENDIF}
-  ptcGraph, ptcCrt, Colors24;
+  ptcGraph, ptcCrt;
+
+const
+  cYellow = $FFFF00;
 
 procedure carres(x, y, a: real; n: byte);
 begin

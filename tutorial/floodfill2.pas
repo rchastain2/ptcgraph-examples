@@ -5,7 +5,12 @@ uses
 {$IFDEF unix}
   cThreads,
 {$ENDIF}
-  ptcGraph, ptcCrt, Colors16;
+  ptcGraph, ptcCrt;
+
+const
+  cGreen  = $0400;
+  cOrange = $FD20;
+  cRed    = $F800;
 
 procedure GrInit;
 var

@@ -7,7 +7,11 @@ uses
 {$IFDEF unix}
   cThreads,
 {$ENDIF}
-  ptcGraph, ptcCrt, Colors24;
+  ptcGraph, ptcCrt;
+
+const
+  cBlue   = $0000FF;
+  cOrange = $FFA500;
   
 var
   x, y, e: smallint;

@@ -5,7 +5,11 @@ uses
 {$IFDEF unix}
   cThreads,
 {$ENDIF}
-  ptcGraph, ptcCrt, Colors16;
+  ptcGraph, ptcCrt;
+
+const
+  cDarkSlateGray = $2A69;
+  cYellow        = $FFE0;
   
 var
   a, n, xc, yc, i: smallint;

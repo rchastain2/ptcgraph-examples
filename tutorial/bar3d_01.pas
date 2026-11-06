@@ -11,8 +11,11 @@ uses
   cThreads,
 {$ENDIF}
   ptcGraph,
-  ptcCrt,
-  Colors16;
+  ptcCrt;
+
+const
+  cDarkSlateGray = $2A69;
+  cOrange        = $FD20;
 
 const
   MAX_COUNT = 30;

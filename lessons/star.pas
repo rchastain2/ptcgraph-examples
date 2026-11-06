@@ -3,7 +3,12 @@ uses
 {$IFDEF unix}
   cThreads,
 {$ENDIF}
-  ptcGraph, ptcCrt, Colors24; { подключение к программе библиотек Crt и Graph   }
+  ptcGraph, ptcCrt; { подключение к программе библиотек Crt и Graph   }
+
+const
+  cOrange = $FFA500;
+  cRed    = $FF0000;
+
 const { массив координат вершин многоугольника (звезды) }
   TopsStar: array[1..18] of Integer = (300, 125, 325, 225, 425, 250,
     325, 275, 300, 375, 275, 275, 180, 250, 275, 225, 300, 125);

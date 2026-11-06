@@ -5,7 +5,14 @@ uses
 {$IFDEF unix}
   cThreads,
 {$ENDIF}
-  ptcGraph, ptcCrt, Colors16;
+  ptcGraph, ptcCrt;
+
+const
+  cBlack    = $0000;
+  cDarkGray = $52AA;
+  cRed      = $F800;
+  cWhite    = $FFFF;
+  cYellow   = $FFE0;
 
 var
   c: char;

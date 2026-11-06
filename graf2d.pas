@@ -5,7 +5,16 @@ uses
 {$IFDEF unix}
   cThreads,
 {$ENDIF}
-  ptcGraph, ptcCrt, Colors16;
+  ptcGraph, ptcCrt;
+
+const
+  cDarkGray      = $52AA;
+  cDarkOrange    = $FC60;
+  cDarkTangerine = $FD42;
+  cGreen         = $0400;
+  cOrange        = $FD20;
+  cTangerine     = $FE60;
+  cWhite         = $FFFF;
 
 const
   pockrok = 360;
@@ -55,8 +64,8 @@ end;
 var
   gd, gm: smallint;
 begin
-  gd := D8bit;
-  gm := m640x480;
+  gd := VESA;
+  gm := m640x480x64k;
 
   InitGraph(gd, gm, '');
   if GraphResult <> grOk then halt(1);

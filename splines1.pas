@@ -5,7 +5,13 @@ uses
 {$IFDEF unix}
   cThreads,
 {$ENDIF}
-  ptcGraph, ptcCrt, Colors16;
+  ptcGraph, ptcCrt;
+
+const
+  cDarkSlateGray = $2A69;
+  cOrange        = $FD20;
+  cYellow        = $FFE0;
+  cYellowGreen   = $9E66;
   
 type
   Point3D = record

@@ -3,7 +3,7 @@ uses
 {$IFDEF unix}
   cThreads,
 {$ENDIF}
-  ptcGraph, ptcCrt, Colors24; { подключение к программе библиотек Crt и Graph }
+  ptcGraph, ptcCrt; { подключение к программе библиотек Crt и Graph }
 const
   Height: array[1..8] of Integer = (40, 150, 90, 240, 190, 120, 50, 90);
                                          { массив высот столбиков диаграммы }

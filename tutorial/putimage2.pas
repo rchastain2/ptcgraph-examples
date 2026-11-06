@@ -3,8 +3,7 @@ uses
   cThreads,
 {$ENDIF}
   ptcGraph,
-  ptcCrt,
-  Colors16;
+  ptcCrt;
 
 procedure init;
 var

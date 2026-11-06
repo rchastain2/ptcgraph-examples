@@ -5,7 +5,14 @@ uses
 {$IFDEF unix}
   cThreads,
 {$ENDIF}
-  ptcGraph, ptcCrt, Colors16;
+  ptcGraph, ptcCrt;
+
+const
+  cDarkOrange = $FC60;
+  cGreen      = $0400;
+  cOrange     = $FD20;
+  cRed        = $F800;
+  cYellow     = $FFE0;
   
 var
   treiber, modus: smallint;

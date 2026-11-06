@@ -3,7 +3,15 @@ uses
 {$IFDEF unix}
   cThreads,
 {$ENDIF}
-  ptcGraph, ptcCrt, Colors24; { подключение к программе библиотек Crt и Graph }
+  ptcGraph, ptcCrt; { подключение к программе библиотек Crt и Graph }
+
+const
+  cLightGray  = $A8A8A8;
+  cLightGreen = $90EE90;
+  cLightRed   = $FF8080;
+  cWhite      = $FFFFFF;
+  cYellow     = $FFFF00;
+
 const
   Step = 5; { шаг изменения координат центра прицела        }
   Instr = 'УПРАВЛЕНИЕ ДВИЖЕНИЕМ ПРИЦЕЛА - СТРЕЛКИ, ВЫХОД - ESC';

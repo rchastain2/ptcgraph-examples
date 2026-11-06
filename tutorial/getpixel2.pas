@@ -4,7 +4,11 @@ uses
   cThreads,
 {$ENDIF}
   SysUtils,
-  ptcGraph, ptcCrt, Colors24;
+  ptcGraph, ptcCrt;
+
+const
+  cBlue   = $0000FF;
+  cOrange = $FFA500;
   
 var
   gd, gm: smallint;
