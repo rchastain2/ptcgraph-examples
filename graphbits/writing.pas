@@ -3,7 +3,8 @@ uses ptcGraph,
   GraphBits,
   ptcCrt;
 var
-  X, Y, S, Gd, Gm: integer;
+  X, Y, S: integer;
+  Gd, Gm: smallint;
   Image: Pointer;
   Size: Word;
 
@@ -11,7 +12,6 @@ begin
   Gd := VGA;
   Gm := 0;
   InitGraph(Gd, Gm, 'C:\TP\BGI');
-  GetMaxX := GetMaxX; GetMaxY := GetMaxY;
   DivX := GetMaxX div 2; DivY := GetMaxY div 2;
   SetTextJustify(1, 1);
   S := 4;

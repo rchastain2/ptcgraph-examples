@@ -105,17 +105,17 @@ begin
   NoSound;
 end;
 
-function TFood.XPos;
+function TFood.XPos: integer;
 begin
   XPos := Pos[1];
 end;
 
-function TFood.YPos;
+function TFood.YPos: integer;
 begin
   YPos := Pos[2];
 end;
 
-function TWorm.AliveOrNot;
+function TWorm.AliveOrNot: Boolean;
 begin
   AliveOrNot := Alive;
 end;
@@ -340,7 +340,7 @@ end;
 
 procedure TBird.JumpToPlace;
 begin
-  Dispose(Place);
+  FreeMem(Place);
   GetMem(Place, PicSize);
   GetImage(XPos - 4, YPos - 4, XPos + 3, YPos + 5, Place^);
   PutImage(XPos - 4, YPos - 4, Image^, NormalPut);

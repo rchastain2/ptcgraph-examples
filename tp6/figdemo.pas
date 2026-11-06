@@ -11,12 +11,8 @@ uses
 {$IFDEF unix}
   cThreads,
 {$ENDIF}
-  //Crt,
   ptcCrt,
   DOS, ptcGraph, Figures;
-
-const
-  PathToDrivers = '\TP\BGI';  { Default location of *.BGI files }
 
 type
   Arc = object(Circle)
@@ -30,7 +26,6 @@ type
 var
   GraphDriver: Integer;
   GraphMode: Integer;
-  ErrorCode: Integer;
   AnArc: Arc;
   ACircle: Circle;
 
@@ -71,25 +66,12 @@ end;
 {--------------------------------------------------------}
 
 begin
-  //GraphDriver := Detect; { Let BGI determine which board you're using }
   GraphDriver := D8bit;
-  
-  //DetectGraph(GraphDriver, GraphMode);
   GraphMode := M640x480;
-  
-  InitGraph(GraphDriver, GraphMode, PathToDrivers);
+  InitGraph(GraphDriver, GraphMode, '');
   if GraphResult <> GrOK then
   begin
     Writeln(GraphErrorMsg(GraphDriver));
-    if GraphDriver = grFileNotFound then
-    begin
-      Writeln('in ', PathToDrivers,
-        '. Modify this program''s "PathToDrivers"');
-      Writeln('constant to specify the actual location of this file.');
-      Writeln;
-    end;
-    Writeln('Press Enter...');
-    Readln;
     Halt(1);
   end;
 

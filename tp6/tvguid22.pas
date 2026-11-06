@@ -11,25 +11,6 @@
   stream: Points, Circles, Rectangles. This collection was
   created and put on a stream by another program
   (TVGUID21.PAS).
-
-  If you are running this program in the IDE, be sure to enable
-  the full graphics save option when you load TURBO.EXE:
-
-    turbo -g
-
-  This ensures that the IDE fully swaps video RAM and keeps
-  "dustclouds" from appearing on the user screen when in
-  graphics mode. You can enable this option permanently
-  via the Options|Environment|Startup dialog.
-
-  This program uses the Graph unit and its .BGI driver files to
-  display graphics on your system. The "PathToDrivers"
-  constant defined below is set to \TP\BGI, which is the default
-  location of the BGI files as installed by the INSTALL program.
-  If you have installed these files in a different location, make
-  sure the .BGI file for your system (EGAVGA.BGI, etc.) is in the
-  current directory or modify the "PathToDrivers" constant
-  accordingly.
 }
 
 program TVGUID22;
@@ -39,9 +20,6 @@ uses
   cThreads,
 {$ENDIF}
   Objects, ptcGraph;
-
-const
-  PathToDrivers = '\TP\BGI';  { Default location of *.BGI files }
 
 { ********************************** }
 { ******  Graphical Objects  ******* }
@@ -223,19 +201,10 @@ var
   Driver, Mode: Integer;
 begin
   Driver := Detect;
-  InitGraph(Driver, Mode, PathToDrivers);
+  InitGraph(Driver, Mode, '');
   if GraphResult <> GrOK then
   begin
     Writeln(GraphErrorMsg(Driver));
-    if Driver = grFileNotFound then
-    begin
-      Writeln('in ', PathToDrivers,
-        '. Modify this program''s "PathToDrivers"');
-      Writeln('constant to specify the actual location of this file.');
-      Writeln;
-    end;
-    Writeln('Press Enter...');
-    Readln;
     Halt(1);
   end;
 end;

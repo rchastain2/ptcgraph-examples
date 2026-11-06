@@ -11,7 +11,6 @@ interface
 
 uses
   ptcGraph,
-  //Crt;
   ptcCrt;
 
 type

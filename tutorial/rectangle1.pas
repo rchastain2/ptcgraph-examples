@@ -1,5 +1,5 @@
 
-program Rectangle2;
+program Rectangle1;
 
 uses
 {$IFDEF unix}

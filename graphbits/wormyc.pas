@@ -3,8 +3,7 @@ program WormBlits;
 uses ptcGraph,
   ptcCrt,
   GraphBits,
-  WormPics,
-  BGIDriv;
+  WormPics;
 
 const
   North: array[1..3] of Byte = (1, 2, 8);
@@ -90,17 +89,17 @@ begin
   NoSound;
 end;
 
-function TFood.XPos;
+function TFood.XPos: integer;
 begin
   XPos := Pos[1];
 end;
 
-function TFood.YPos;
+function TFood.YPos: integer;
 begin
   YPos := Pos[2];
 end;
 
-function TWorm.AliveOrNot;
+function TWorm.AliveOrNot: Boolean;
 begin
   AliveOrNot := Alive;
 end;
@@ -380,20 +379,7 @@ begin
   until (MoveDist = -1) or (Ch = #27);
 end;
 
-procedure Abort(Msg: string);
 begin
-  Writeln(Msg, ': ', GraphErrorMsg(GraphResult));
-  Halt(1);
-end;
-
-procedure BringItIn;
-begin
-  if RegisterBGIdriver(@EGAVGADriverProc) < 0 then
-    Abort('EGA/VGA');
-end;
-
-begin
-  BringItIn;
   Randomize;
   RunTheThing;
 end.

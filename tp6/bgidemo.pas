@@ -63,34 +63,21 @@ end; { MyExitProc }
 
 procedure Initialize;
 { Initialize graphics and report any errors that may occur }
-var
-  //InGraphicsMode : boolean; { Flags initialization of graphics mode }
-  PathToDriver   : string;  { Stores the DOS path to *.BGI & *.CHR }
 begin
   { when using Crt and graphics, turn off Crt's memory-mapped writes }
   DirectVideo := False;
   OldExitProc := ExitProc;                { save previous exit proc }
   ExitProc := @MyExitProc;                { insert our exit proc in chain }
-  PathToDriver := '';
-  repeat
-    GraphDriver := d8bit;
-    GraphMode := m800x600;
-    WindowTitle := 'BGI Demo for Free Pascal';
-    InitGraph(GraphDriver, GraphMode, PathToDriver);
-    ErrorCode := GraphResult;             { preserve error return }
-    if ErrorCode <> grOK then             { error? }
-    begin
-      Writeln('Graphics error: ', GraphErrorMsg(ErrorCode));
-      if ErrorCode = grFileNotFound then  { Can't find driver file }
-      begin
-        Writeln('Enter full path to BGI driver or type <Ctrl-Break> to quit:');
-        Readln(PathToDriver);
-        Writeln;
-      end
-      else
-        Halt(1);                          { Some other error: terminate }
-    end;
-  until ErrorCode = grOK;
+  GraphDriver := d8bit;
+  GraphMode := m800x600;
+  WindowTitle := 'BGI Demo for Free Pascal';
+  InitGraph(GraphDriver, GraphMode, '');
+  ErrorCode := GraphResult;             { preserve error return }
+  if ErrorCode <> grOK then             { error? }
+  begin
+    Writeln('Graphics error: ', GraphErrorMsg(ErrorCode));
+    Halt(1);
+  end;
   Randomize;                { init random number generator }
   MaxColor := GetMaxColor;  { Get the maximum allowable drawing color }
   MaxX := GetMaxX;          { Get screen resolution values }

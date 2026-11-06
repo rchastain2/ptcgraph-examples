@@ -14,7 +14,7 @@ begin
 end;
 
 begin
-  GraphicsScreen('C:\TP\BGI');
+  GraphicsScreen;
   InitBlocks;
   SetFillStyle(1, Blue);
   FloodFill(10, 10, 15);

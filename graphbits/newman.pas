@@ -29,25 +29,24 @@ var
   Ch: char;
   F: file;
   Size: Word;
-  X, Y,
-    Gd, Gm: integer;
+  X, Y: integer;
   Still,
     Rt1, Rt2,
     Lt1, Lt2: Pointer;
   Man: TMan;
   Lift1: TLift;
 
-function TMan.Position;
+function TMan.Position: longint;
 begin
   Position := XPos + Ypos;
 end;
 
-function TLift.Position;
+function TLift.Position: longint;
 begin
   Position := XPos + Ypos;
 end;
 
-procedure TLift.PutAt;
+procedure TLift.PutAt(Xx, Yy: integer);
 const
   Length = 30;
   Width = 10;
@@ -98,7 +97,7 @@ begin
   NoSound;
 end;
 
-procedure TMan.MoveMe;
+procedure TMan.MoveMe(XDist, YDist: integer);
 begin
   if XDist >= 0 then Dir := True
   else Dir := False;
@@ -156,10 +155,7 @@ end;
 
 procedure Initialize;
 begin
-  Gd := InstallUserDriver('GraphicsScreen', nil);
-  Gm := 1;
-  InitGraph(Gd, Gm, '\tp\bgi');
-  
+  GraphicsScreen;
 end;
 
 procedure ReadFromFiles;
@@ -172,27 +168,27 @@ begin
   GetMem(Lt1, Size);
   GetMem(Lt2, Size);
 
-  Assign(F, '\GLENNS\STILLMAN.PIC');
+  Assign(F, 'stillman.pic');
   Reset(F, Size);
   BlockRead(F, Still^, 1);
   Close(F);
 
-  Assign(F, '\GLENNS\RIGHT1.PIC');
+  Assign(F, 'right1.pic');
   Reset(F, Size);
   BlockRead(F, Rt1^, 1);
   Close(F);
 
-  Assign(F, '\GLENNS\RIGHT2.PIC');
+  Assign(F, 'right2.pic');
   Reset(F, Size);
   BlockRead(F, Rt2^, 1);
   Close(F);
 
-  Assign(F, '\GLENNS\LEFT1.PIC');
+  Assign(F, 'left1.pic');
   Reset(F, Size);
   BlockRead(F, Lt1^, 1);
   Close(F);
 
-  Assign(F, '\GLENNS\LEFT2.PIC');
+  Assign(F, 'left2.pic');
   Reset(F, Size);
   BlockRead(F, Lt2^, 1);
   Close(F);

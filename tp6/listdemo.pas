@@ -16,7 +16,6 @@ uses
   ptcCrt;
 
 const
-  PathToDrivers = '\TP\BGI';  { Default location of *.BGI files }
   MemAvail = 0;
 
 type
@@ -154,24 +153,13 @@ end;
 {--------------------------------------------------------}
 
 begin
-  { Let BGI determine which board you're using: }
-  //DetectGraph(GraphDriver, GraphMode);
   GraphDriver := D8Bit;
   GraphMode := M640x480;
   
-  InitGraph(GraphDriver, GraphMode, PathToDrivers);
+  InitGraph(GraphDriver, GraphMode, '');
   if GraphResult <> GrOK then
   begin
     Writeln(GraphErrorMsg(GraphDriver));
-    if GraphDriver = grFileNotFound then
-    begin
-      Writeln('in ', PathToDrivers,
-        '. Modify this program''s "PathToDrivers"');
-      Writeln('constant to specify the actual location of this file.');
-      Writeln;
-    end;
-    Writeln('Press Enter...');
-    Readln;
     Halt(1);
   end;
 
@@ -196,7 +184,6 @@ begin
   HeapStatus('Heap space after list is cleaned up: ');
 
   OutText('Press Enter to end program: ');
-  //Readln;
   ReadKey;
   
   CloseGraph;

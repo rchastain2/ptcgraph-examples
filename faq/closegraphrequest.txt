@@ -1,2 +1,0 @@
-repeat
-until {CloseGraphRequest}(ReadKey = #3) or (ReadKey = #27);

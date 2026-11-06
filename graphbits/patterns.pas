@@ -10,6 +10,7 @@ uses
 const
   OT: array[0..4] of shortint = (0, 1, -1, 2, -2);
   Bits = 900;
+  Hues: array[1..7] of Colour = (Gr, Aq, Bl, Pu, LPu, Re, Ye);
 type
   TPixel = object
     XPos, YPos, Rad: integer;
@@ -22,8 +23,8 @@ type
 
 var
   OldPalette: PaletteType;
-  Gd, Gm, Grd, Grm,
-    X, Y, MaxRad, MinRad,
+  Gd, Gm, Grd, Grm: smallint;
+  X, Y, MaxRad, MinRad,
     Col, rx, ry, Counter, Clr: integer;
   Motion,
     No, Ex, Why: integer;
@@ -389,8 +390,6 @@ begin
           Y := Random(GetMaxY);
         end;
       FillPoly(I, Poly);
-      GetMaxX := GetMaxX;
-      GetMaxY := GetMaxY;
       if KeyPressed then Quitter;
     until Co >= 200;
   end;
@@ -622,8 +621,6 @@ begin
     end;
     CloseGraph;
     InitGraph(Gd, Grm, '');
-    GetMaxX := GetMaxX;
-    GetMaxY := GetMaxY;
     DivX := GetMaxX div 2;
     DivY := GetMaxY div 2;
   end
@@ -703,8 +700,6 @@ procedure BallSmash;
 var
   Distance: shortint;
 begin
-  GetMaxX := GetMaxX;
-  GetMaxY := GetMaxY;
   DivX := GetMaxX div 2;
   DivY := GetMaxY div 2;
   Distance := CalcBallMoveDist;
@@ -736,7 +731,8 @@ begin
   until YPos[1] >= DivY;
   SetFillStyle(1, Black);
   Bar(DivX, DivY, DivX * 2, DivY * 2);
-  NormalColours;
+  GetDefaultPalette(OldPalette);
+  SetAllPalette(OldPalette);
   RedCircles;
   if not KeyPressed then
     PixAcross(False);
@@ -792,8 +788,6 @@ begin
   Gd := EGA;
   Gm := 0;
   InitGraph(Gd, Gm, '');
-  GetMaxX := GetMaxX;
-  GetMaxY := GetMaxY;
   DivX := GetMaxX div 2;
   DivY := GetMaxY div 2;
   SetTextJustify(1, 1);

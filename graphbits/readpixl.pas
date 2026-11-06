@@ -43,8 +43,7 @@ begin
   {Gd:= VGA;
   Gm:= 2;
   InitGraph(Gd, Gm, 'c:\tp\bgi');}
-  GraphicsScreen('c:\tp\bgi');
-  GetMaxX := GetMaxX; GetMaxY := GetMaxY;
+  GraphicsScreen;
   DivX := GetMaxX div 2;
   DivY := GetMaxY div 2;
 end;
