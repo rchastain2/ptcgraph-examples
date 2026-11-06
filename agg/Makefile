@@ -5,7 +5,7 @@ ifdef LCL
 LAZARUS := ~/Documents/sources/lazarus
 AGGPAS := $(LAZARUS)/components/aggpas/src
 else
-FPGUI := ~/Documents/pascal/sources/fpgui/develop
+FPGUI := ~/Documents/pascal/sources/fpgui
 AGGPAS := $(FPGUI)/framework/src/main/pascal/corelib/render/software
 AGGEXT := $(FPGUI)/extras/aggpas
 endif

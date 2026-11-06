@@ -87,6 +87,6 @@ end;
 
 begin
   start;
-  load256ColorPng('color_palette_256_deluxepaint.png');
+  load256ColorPng('loadpng1.png');
   stop;
 end.
