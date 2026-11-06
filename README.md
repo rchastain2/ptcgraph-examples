@@ -5,6 +5,50 @@ Examples for the *ptcGraph* unit, made by me or by others.
 
 ![Screenshot](3d/grgula.png)
 
+## Contents
+
+| Folder | Description |
+|---|---|
+| [3d](3d) | 3D: rotating box, object loaded from a file, rotating pyramid. |
+| [agg](agg) | Using the AggPas 2D graphics library with *ptcGraph*. |
+| [bitmap](bitmap) | Loading BMP, GIF and PNG images; tools for the Windows 3.x icon format ([win3-icon](bitmap/win3-icon)). |
+| [colornames](colornames) | Table of named colors, and a program generating 16-bit color constants from it. |
+| [drawings](drawings) | Animals and characters drawn with graphic primitives. |
+| [faq](faq) | Answers to common questions, and console programs listing graphic modes. |
+| [fractals](fractals) | Fractals and recursive figures: Mandelbrot set, Koch snowflake, Martin fractal… |
+| [games](games) | Games, see below. |
+| [graphbits](graphbits) | Examples by Glenn Kentwell, ported to *ptcGraph*. |
+| [lessons](lessons) | Exercises from Russian and Ukrainian Pascal courses (see [SOURCES.md](lessons/SOURCES.md)). |
+| [tp6](tp6) | Examples from the Turbo Pascal 6.0 documentation. |
+| [tutorial](tutorial) | Short examples of the procedures and functions of the *Graph* unit. |
+
+The root folder contains other examples: animations, curves, and the classic Borland *BGIDemo*.
+
+### Games
+
+- [Arkanoid](games/arkanoid), by Kropochkina Lena
+- [Ghost Invasion](games/ghost-invasion)
+- [Lines](games/lines), by Nane Petrosyan
+- [Maze](games/maze), by Randy Ding
+- [Nacho](games/nacho): hangman and snake, by Nacho Cabanes
+- [Pong](games/pong)
+- [Push Balls](games/push-balls), a small Sokoban-like puzzle
+- [Reversi](games/reversi), the QBasic game ported by RetroNick
+- [Snake Lines](games/snake-lines)
+- [Snake](games/snake-markus), by Markus Mangold
+- [Sokoban](games/sokoban), by Yevhen Yevsyuhov
+
+## Building
+
+Each folder has its own *Makefile*. In most folders, to build an example, go to the folder and type `make` followed by the name of the program, without extension:
+
+```
+cd fractals
+make mandelbrot2
+```
+
+Most examples are a single file that only needs *ptcGraph*.
+
 ## See also
 
 - [Baby Chess](https://github.com/rchastain/baby-chess)

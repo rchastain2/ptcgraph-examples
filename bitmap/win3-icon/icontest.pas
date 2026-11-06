@@ -30,15 +30,39 @@ begin
   end;
 end;
 
+function SameImage(const A, B: TWin3Icon): boolean;
+var
+  i, x, y: integer;
+begin
+  for i := 0 to IconColorCount - 1 do
+    if (A.Palette[i].Red <> B.Palette[i].Red)
+    or (A.Palette[i].Green <> B.Palette[i].Green)
+    or (A.Palette[i].Blue <> B.Palette[i].Blue) then
+      Exit(false);
+  for y := 0 to IconHeight - 1 do
+    for x := 0 to IconWidth - 1 do
+    begin
+      if A.Transparent[y, x] <> B.Transparent[y, x] then
+        Exit(false);
+      if not A.Transparent[y, x] and (A.Pixels[y, x] <> B.Pixels[y, x]) then
+        Exit(false);
+    end;
+  result := true;
+end;
+
 var
   LDir: string;
   LSearch: TSearchRec;
-  LIcon: TWin3Icon;
+  LIcon, LReloaded: TWin3Icon;
+  LSame: boolean;
+  LFailures: integer;
   LError: TIconError;
   LStream: TMemoryStream;
   LDiff, LTransparent, x, y: integer;
 
 begin
+  LFailures := 0;
+
   if SizeOf(TIconFile) <> IconFileSize then
   begin
     WriteLn('SizeOf(TIconFile) = ', SizeOf(TIconFile), ', expected ', IconFileSize);
@@ -70,17 +94,27 @@ begin
       try
         WriteIcon(LStream, LIcon);
         LDiff := CountDifferences(LDir + LSearch.Name, LStream);
+        LStream.Position := 0;
+        LSame := (ReadIcon(LStream, LReloaded) = ieNone) and SameImage(LIcon, LReloaded);
       finally
         LStream.Free;
       end;
 
       Write(LSearch.Name:16, '  transparent ', LTransparent:4, '  ');
-      if LDiff = 0 then
+      if not LSame then
+      begin
+        WriteLn('FAILED: image changed after writing');
+        Inc(LFailures);
+      end
+      else if LDiff = 0 then
         WriteLn('identical')
       else
-        WriteLn(LDiff, ' byte(s) differ');
+        WriteLn('same image, ', LDiff, ' byte(s) differ');
     until FindNext(LSearch) <> 0;
   finally
     FindClose(LSearch);
   end;
+
+  if LFailures > 0 then
+    Halt(1);
 end.

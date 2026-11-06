@@ -32,8 +32,9 @@ var
   x, y,
   gd, gm  : smallint;
 begin
-  gd := detect;
-  InitGraph(gd,gm,'e:\bp\bgi');
+  gd := VESA;
+  gm := m640x480x64k;
+  InitGraph(gd,gm,'');
   cleardevice;
   x := 100;
   y := 100;

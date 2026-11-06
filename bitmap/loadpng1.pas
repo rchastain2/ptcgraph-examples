@@ -68,9 +68,9 @@ begin
       // make pixel image copy to ptcpas
       x := 100;
       y := 100;
-      for w := 0 to Image.Height - 1 do
+      for h := 0 to Image.Height - 1 do
       begin
-        for h := 0 to Image.Width - 1 do
+        for w := 0 to Image.Width - 1 do
         begin
           Color := Image.Pixels[w, h];
           PutPixel(x + w, y + h, Color);

@@ -1,19 +1,25 @@
-
 program setviewport2;
 
 uses
 {$IFDEF UNIX}
   CThreads,
 {$ENDIF}
-  SysUtils, ptcGraph, ptcCrt, ptcGraph1;
+  ptcGraph, ptcCrt;
 
 const
   cDarkOrange  = $FC60;
   cRed         = $F800;
   cYellowGreen = $9E66;
-  
+
+var
+  gd, gm: smallint;
+
 begin
-  if OpenGraph(640, 480, 16, 'SetViewPort demo') then
+  gd := VESA;
+  gm := m640x480x64k;
+  WindowTitle := 'SetViewPort demo';
+  InitGraph(gd, gm, '');
+  if GraphResult = grOk then
   begin
     SetBkColor(cDarkOrange);
     ClearDevice;
